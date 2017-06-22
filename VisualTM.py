@@ -1,5 +1,5 @@
-import Tape
-import ExecuteTM
+from Tape import Tape
+from ExecuteTM import ExecuteTM
 
 class VisualTM:
 
