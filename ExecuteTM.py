@@ -30,6 +30,8 @@ class ExecuteTM:
 			state, task = instruction.split(">")
 			self.instructions[tuple(state.split(","))] = task.replace("\n", "").split(",")
 
+
+
 		print("Settings:", self.settings)
 		print("Instructions:", self.instructions)
 
@@ -86,8 +88,8 @@ if __name__ == '__main__':
 
 	tm = ExecuteTM()
 
-	# tm._parse_file("tapes/bsp.txt")
-	# tm.exec_TM("BB01100101001010110100010101BB")
+	tm._parse_file("tapes/bsp.txt")
+	tm.exec_TM("BB01100101001010110100010101BB")
 
-	tm._parse_file("tapes/finde_eins.txt")
-	tm.exec_TM("22110010100101011010001010122")
+	# tm._parse_file("tapes/finde_eins.txt")
+	# tm.exec_TM("22110010100101011010001010122")
