@@ -52,18 +52,23 @@ class ExecuteTM:
 		i = 0 # for testing purposes
 
 		while not terminated:
-			case = (self.state, tape.read())
-			print("case", case)
+			# save old values for later comparison
+			old_tape, old_position, old_state = tape.output, tape.position, self.state
+			state = (self.state, tape.read())
+			print("state      ", state, tape.position)
 
-			if case in self.instructions:
-				print("new_state, new_char, direction", self.instructions[case])
-				new_state, new_char, direction = self.instructions[case]
+			if state in self.instructions:
+				print("instruction", self.instructions[state])
+				new_state, new_char, direction = self.instructions[state]
 				self.state = new_state
 				tape.write(new_char)
 				tape.move(direction)
 
 				if self.state[1:] in self.settings["accepted_states"]:
 					print("Accepted state reached!", self.state)
+					terminated = True
+				elif old_tape == tape.output and old_position == tape.position and old_state == self.state:
+					print("Tape values, position and state hasn't changed!")
 					terminated = True
 			else:
 				print("Instruction not found!")
@@ -89,7 +94,7 @@ if __name__ == '__main__':
 	tm = ExecuteTM()
 
 	tm._parse_file("tapes/bsp.txt")
-	tm.exec_TM("BB01100101001010110100010101BB")
+	tm.exec_TM("BB01111BB")
 
 	# tm._parse_file("tapes/finde_eins.txt")
 	# tm.exec_TM("22110010100101011010001010122")
