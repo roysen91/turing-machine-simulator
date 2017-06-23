@@ -7,7 +7,7 @@ class ExecuteTM:
 		self.settings = {}
 		self.instructions = {}
 		# used for visualisation
-		self.steps = []
+		self._steps = []
 
 
 	def _parse_file(self, filename):
@@ -56,7 +56,7 @@ class ExecuteTM:
 		while not terminated:
 			# save old values for later comparison
 			step = (tape.output, tape.position, self.state)
-			self.steps.append(step)
+			self._steps.append(step)
 			old_tape, old_position, old_state = step
 
 			state = (self.state, tape.read())
@@ -93,6 +93,15 @@ class ExecuteTM:
 		print("Character", tape.read())
 
 
+	def get_steps(self):
+		"""
+		After the Turing Machine is executed, this function will return
+		a list with all steps taken during the execution
+		@return list self._steps with tuples (tape state, head position, head state)
+		"""
+		return self._steps
+
+
 # Tests
 if __name__ == '__main__':
 
@@ -100,8 +109,8 @@ if __name__ == '__main__':
 
 	tm._parse_file("tapes/bsp.txt")
 	tm.exec_TM("BB01111BB")
-	print("Steps taken", tm.steps)
+	print("Steps taken", tm.get_steps())
 
 	# tm._parse_file("tapes/finde_eins.txt")
 	# tm.exec_TM("22110010100101011010001010122")
-	# print("Steps taken", tm.steps)
+	# print("Steps taken", tm.get_steps())
