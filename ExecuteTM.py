@@ -6,6 +6,8 @@ class ExecuteTM:
 		self.state = None
 		self.settings = {}
 		self.instructions = {}
+		# used for visualisation
+		self.steps = []
 
 
 	def _parse_file(self, filename):
@@ -53,7 +55,10 @@ class ExecuteTM:
 
 		while not terminated:
 			# save old values for later comparison
-			old_tape, old_position, old_state = tape.output, tape.position, self.state
+			step = (tape.output, tape.position, self.state)
+			self.steps.append(step)
+			old_tape, old_position, old_state = step
+
 			state = (self.state, tape.read())
 			print("state      ", state, tape.position)
 
@@ -95,6 +100,8 @@ if __name__ == '__main__':
 
 	tm._parse_file("tapes/bsp.txt")
 	tm.exec_TM("BB01111BB")
+	print("Steps taken", tm.steps)
 
 	# tm._parse_file("tapes/finde_eins.txt")
 	# tm.exec_TM("22110010100101011010001010122")
+	# print("Steps taken", tm.steps)
