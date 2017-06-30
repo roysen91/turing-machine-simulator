@@ -26,7 +26,7 @@ class Tests(unittest.TestCase):
 		self.assertEqual(self.tm.settings["blank_character"],"B")
 		self.assertEqual(self.tm.settings["accepted_states"], set())
 
-		self.tm.exec_TM("BB11111BB")
+		#self.tm.exec_TM("BB11111BB")
 
 
 
