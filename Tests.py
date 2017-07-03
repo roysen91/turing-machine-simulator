@@ -27,9 +27,23 @@ class Tests(unittest.TestCase):
 		self.assertEqual(self.tm.settings["accepted_states"], set())
 
 		#self.tm.exec_TM("BB11111BB")
-
-
-
+		
+class TestVisualizer(unittest.TestCase):
+	"""
+	Running tests on VisualTM
+	"""
+	def setUp(self):
+		print("setup Vis")
+		self.tm = ExecuteTM()
+		self.tm._parse_file("tapes/finde_eins.txt")
+		self.tm.exec_TM("22000001122")
+		self.vis = VisualTM()
+	
+	def test_ExecuteAPI(self):
+		self.vis.write_file(self.tm.get_steps())
+		self.vis.visualize()
+		self.assertEqual(1, 3)
+		
 
 
 
