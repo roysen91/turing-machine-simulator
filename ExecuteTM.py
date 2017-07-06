@@ -28,6 +28,8 @@ class ExecuteTM:
 			instructions = file.readlines()
 			settings_list = instructions.pop(0).split("|")
 
+		self.tape_amount = int(settings_list[0])
+
 		self.settings = {
 			"amount_tapes":		int(settings_list[0]),
 			"amount_states":	int(settings_list[1]),
@@ -45,6 +47,17 @@ class ExecuteTM:
 		log("Instructions:", self.instructions)
 
 
+	def get_general_state(self, tapes):
+		"""
+		Returns the cuerrent state, depending on wether
+		1 or 2 bands are used
+		"""
+		if self.tape_amount == 1:
+			return (tapes[0].output, tapes[0].position, self.state)
+		else:
+			return (tapes[0].output, tapes[0].position, tapes[1].output, tapes[1].position, self.state)
+
+
 	def exec_TM(self, inputstrings):
 		"""
 		Executing the instruction previously parsed on the inputstring(s)
@@ -52,52 +65,57 @@ class ExecuteTM:
 		@param str inputstrings separated with | for multiple tapes
 		"""
 		inputstrings = inputstrings.split("|")
-		self.tape_amount = len(inputstrings)
-		self._steps = [[] for _ in range(self.tape_amount)]
+		if self.tape_amount != len(inputstrings):
+			raise Exception("TM made for {} tapes, but {} was input".format(self.tape_amount, len(inputstrings)))
+
+		self._steps = []
 		tapes = [Tape(inputstring, self.settings) for inputstring in inputstrings]
 
 		if any([tape.forbidden_characters() for tape in tapes]):
 			raise Exception("Forbidden characters in tape:", [tape.forbidden_characters() for tape in tapes])
 
 		# initial setup
-		self.state = ["q0"]*self.tape_amount
-		terminated = [False]*self.tape_amount
-		attempts = [0]*self.tape_amount # for testing purposes
+		self.state = "q0"
+		terminated = False
+		attempts = 0 # for testing purposes
 
-		while not all(terminated):
+		while not terminated:
 			# save old values for later comparison
-			for i, tape in enumerate(tapes):
-				if terminated[i]: continue
-				log("tape", i, tape.output)
-				step = (tape.output, tape.position, self.state[i])
-				self._steps[i].append(step)
-				old_tape, old_position, old_state = step
+			for t in tapes:
+				log("Tape:", t.output)
+			step = self.get_general_state(tapes)
+			self._steps.append(step)
 
-				state = (self.state[i], tape.read())
-				log("state      ", state, tape.position)
+			instruction_key = tuple([self.state] + [t.read() for t in tapes])
+			log("instruction_key", instruction_key)
 
-				if state in self.instructions:
-					log("instruction", self.instructions[state])
-					new_state, new_char, direction = self.instructions[state]
-					self.state[i] = new_state
-					tape.write(new_char)
-					tape.move(direction)
+			if instruction_key in self.instructions:
+				log("instruction", self.instructions[instruction_key])
 
-					if new_state[1:] in self.settings["accepted_states"]:
-						log("Accepted state '{}' reached for tape {}".format(new_state, i))
-						terminated[i] = True
-					elif old_tape == tape.output and old_position == tape.position and old_state == self.state[i]:
-						log("Tape values, position and state hasn't changed for tape:", i)
-						terminated[i] = True
-				else:
-					log("Instruction not found for tape", i)
-					terminated[i] = True
+				# perform tasks on all tapes
+				instructions = list(self.instructions[instruction_key])
+				self.state = instructions.pop(0)
+				half = len(instructions)//2
+				for i in range(half):
+					log("instr", i, instructions[i], instructions[i+half])
+					tapes[i].write(instructions[i])
+					tapes[i].move(instructions[i+half])
 
-				# temporarily avoiding infinite loops
-				attempts[i] += 1
-				if attempts[i] > 1000:
-					log("Killed it, because doesn't stop! Tape:", i)
-					terminated[i] = True
+				if self.state[1:] in self.settings["accepted_states"]:
+					log("Accepted state '{}' reached".format(state))
+					terminated = True
+				elif step == self.get_general_state(tapes):
+					log("Tape values, position and state hasn't changed")
+					terminated = True
+			else:
+				log("Instruction not found for tape")
+				terminated = True
+
+			# temporarily avoiding infinite loops
+			attempts += 1
+			if attempts > 5000:
+				log("Killed it, because doesn't stop! Tape:")
+				terminated = True
 
 
 		log("ALL TERMINATED!")
@@ -106,7 +124,7 @@ class ExecuteTM:
 			log("Tape:    ", i)
 			log("Input:   ", tape.input)
 			log("Output:  ", tape.output)
-			log("State:   ", self.state[i])
+			log("State:   ", self.state)
 			log("Position ", tape.position)
 			log("Character", tape.read())
 			log("-"*20)
@@ -119,7 +137,7 @@ class ExecuteTM:
 		@return list self._steps with tuples (tape state, head position, head state)
 		"""
 		log("get_steps for tape", i)
-		return self._steps[i]
+		return self._steps
 
 
 # Tests
@@ -128,8 +146,12 @@ if __name__ == '__main__':
 
 	tm = ExecuteTM()
 
-	tm._parse_file("tapes/bsp.txt")
-	tm.exec_TM("BB11111BB|BB00011BB|BB00111BB|BB01111BB|B001111BB|BB011110B|BB01BBBBB")
+	# tm._parse_file("tapes/Folgen.txt")
+	# tm.exec_TM("BB110011BB|BB000000001100110000BB")
+	# tm._parse_file("tapes/bsp.txt")
+	# tm.exec_TM("BB11111BB")
+	tm._parse_file("tapes/col.txt")
+	tm.exec_TM("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB11111BBBBBBBBBBBBBBBBBBBBBBBBBBBB")
 	for i in range(tm.tape_amount):
 		log(tm.get_steps(i))
 
