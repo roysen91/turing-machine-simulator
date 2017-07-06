@@ -52,10 +52,9 @@ class ExecuteTM:
 		Returns the cuerrent state, depending on wether
 		1 or 2 bands are used
 		"""
-		if self.tape_amount == 1:
-			return (tapes[0].output, tapes[0].position, self.state)
-		else:
-			return (tapes[0].output, tapes[0].position, tapes[1].output, tapes[1].position, self.state)
+		tape_states = [[t.output, t.position] for t in tapes]
+
+		return sum(tape_states, []) + [self.state]
 
 
 	def exec_TM(self, inputstrings):
@@ -151,7 +150,7 @@ if __name__ == '__main__':
 	# tm._parse_file("tapes/bsp.txt")
 	# tm.exec_TM("BB11111BB")
 	tm._parse_file("tapes/col.txt")
-	tm.exec_TM("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB11111BBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+	tm.exec_TM("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB11BBBBBBBBBBBBBBBBBBBBBBBBBBBB")
 	for i in range(tm.tape_amount):
 		log(tm.get_steps(i))
 
