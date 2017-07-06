@@ -149,8 +149,8 @@ if __name__ == '__main__':
 	# tm.exec_TM("BB110011BB|BB000000001100110000BB")
 	# tm._parse_file("tapes/bsp.txt")
 	# tm.exec_TM("BB11111BB")
-	tm._parse_file("tapes/col.txt")
-	tm.exec_TM("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB11BBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+	tm._parse_file("tapes/tmasch.txt")
+	tm.exec_TM("0")
 	for i in range(tm.tape_amount):
 		log(tm.get_steps(i))
 

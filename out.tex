@@ -21,7 +21,7 @@
 \node at (0.25,0.5) {{$q0$}};
 \node at (-3,2) {Steps: {1}};
 \def \start  {0.25 -2* \step}
-\foreach \bit in {2,2,0,0,0,0,0,1,1,2,2}{
+\foreach \bit in {B,B,0,1,0,B,B}{
 \node at (\start,-0.25) {\bit};
 \FPeval{start}{\start+\step}
 \xdef\start{\start}% make \xb global
@@ -39,7 +39,7 @@
 \node at (0.25,0.5) {{$q0$}};
 \node at (-3,2) {Steps: {2}};
 \def \start  {0.25 -3* \step}
-\foreach \bit in {2,2,0,0,0,0,0,1,1,2,2}{
+\foreach \bit in {B,B,B,1,0,B,B}{
 \node at (\start,-0.25) {\bit};
 \FPeval{start}{\start+\step}
 \xdef\start{\start}% make \xb global
@@ -54,10 +54,10 @@
 \draw \band; 
 \draw \triangle;
 \draw \state;
-\node at (0.25,0.5) {{$q0$}};
+\node at (0.25,0.5) {{$q1$}};
 \node at (-3,2) {Steps: {3}};
 \def \start  {0.25 -4* \step}
-\foreach \bit in {2,2,0,0,0,0,0,1,1,2,2}{
+\foreach \bit in {B,B,B,1,0,B,B}{
 \node at (\start,-0.25) {\bit};
 \FPeval{start}{\start+\step}
 \xdef\start{\start}% make \xb global
@@ -72,10 +72,10 @@
 \draw \band; 
 \draw \triangle;
 \draw \state;
-\node at (0.25,0.5) {{$q0$}};
+\node at (0.25,0.5) {{$q1$}};
 \node at (-3,2) {Steps: {4}};
 \def \start  {0.25 -5* \step}
-\foreach \bit in {2,2,0,0,0,0,0,1,1,2,2}{
+\foreach \bit in {B,B,B,1,0,B,B}{
 \node at (\start,-0.25) {\bit};
 \FPeval{start}{\start+\step}
 \xdef\start{\start}% make \xb global
@@ -90,10 +90,10 @@
 \draw \band; 
 \draw \triangle;
 \draw \state;
-\node at (0.25,0.5) {{$q0$}};
+\node at (0.25,0.5) {{$q2$}};
 \node at (-3,2) {Steps: {5}};
-\def \start  {0.25 -6* \step}
-\foreach \bit in {2,2,0,0,0,0,0,1,1,2,2}{
+\def \start  {0.25 -4* \step}
+\foreach \bit in {B,B,B,1,0,B,B}{
 \node at (\start,-0.25) {\bit};
 \FPeval{start}{\start+\step}
 \xdef\start{\start}% make \xb global
@@ -108,10 +108,46 @@
 \draw \band; 
 \draw \triangle;
 \draw \state;
-\node at (0.25,0.5) {{$q0$}};
+\node at (0.25,0.5) {{$q2$}};
 \node at (-3,2) {Steps: {6}};
-\def \start  {0.25 -7* \step}
-\foreach \bit in {2,2,0,0,0,0,0,1,1,2,2}{
+\def \start  {0.25 -3* \step}
+\foreach \bit in {B,B,B,1,B,B,B}{
+\node at (\start,-0.25) {\bit};
+\FPeval{start}{\start+\step}
+\xdef\start{\start}% make \xb global
+% resets bounding box (crops right overflow)
+\pgfresetboundingbox
+\path[use as bounding box, draw] \boundb;
+}
+\end{tikzpicture}
+\newframe
+\begin{tikzpicture} 
+\draw \boundb; 
+\draw \band; 
+\draw \triangle;
+\draw \state;
+\node at (0.25,0.5) {{$q3$}};
+\node at (-3,2) {Steps: {7}};
+\def \start  {0.25 -2* \step}
+\foreach \bit in {B,B,B,1,B,B,B}{
+\node at (\start,-0.25) {\bit};
+\FPeval{start}{\start+\step}
+\xdef\start{\start}% make \xb global
+% resets bounding box (crops right overflow)
+\pgfresetboundingbox
+\path[use as bounding box, draw] \boundb;
+}
+\end{tikzpicture}
+\newframe
+\begin{tikzpicture} 
+\draw \boundb; 
+\draw \band; 
+\draw \triangle;
+\draw \state;
+\node at (0.25,0.5) {{$q17$}};
+\node at (-3,2) {Steps: {8}};
+\def \start  {0.25 -3* \step}
+\foreach \bit in {B,B,B,1,B,B,B}{
 \node at (\start,-0.25) {\bit};
 \FPeval{start}{\start+\step}
 \xdef\start{\start}% make \xb global
