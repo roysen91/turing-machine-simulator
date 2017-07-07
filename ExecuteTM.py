@@ -101,7 +101,7 @@ class ExecuteTM:
 					tapes[i].move(instructions[i+half])
 
 				if self.state[1:] in self.settings["accepted_states"]:
-					log("Accepted state '{}' reached".format(state))
+					log("Accepted state '{}' reached".format(self.state))
 					terminated = True
 				elif step == self.get_general_state(tapes):
 					log("Tape values, position and state hasn't changed")
@@ -150,7 +150,7 @@ if __name__ == '__main__':
 	# tm._parse_file("tapes/bsp.txt")
 	# tm.exec_TM("BB11111BB")
 	tm._parse_file("tapes/col.txt")
-	tm.exec_TM("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB11BBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+	tm.exec_TM("BBB11BBBBBBBBB")
 	for i in range(tm.tape_amount):
 		log(tm.get_steps(i))
 
