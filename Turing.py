@@ -11,7 +11,7 @@ class Turing:
 	for example:
 	`python3 Turing.py col 0,1,1,0`
 	"""
-	def __init__(self, turing_machine, inputstrings = "", filename = "tm.pdf"):
+	def __init__(self, turing_machine, inputstrings = "", filename = "tm"):
 
 		turing_machine += ".txt" if turing_machine[-4:] != ".txt" else ""
 
