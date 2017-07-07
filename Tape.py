@@ -17,7 +17,7 @@ class Tape:
 		adds padding to both sides
 		"""
 		inputlist = inputstring.split(",")
-		padding = [self.settings["blank_character"]]*50
+		padding = [self.settings["blank_character"]]*10
 		return padding + inputlist + padding
 
 	def to_set(self):
