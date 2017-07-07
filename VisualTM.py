@@ -6,7 +6,7 @@ import subprocess
 class VisualTM:
 
 	def __init__(self):
-		self._viewername = None
+		self._viewername = 'open'
 		self.styles = "\\tikzstyle{NodeStyle}=[] \n\
 \\tikzstyle{EdgeStyle}=[]"
 		self.commands = ""
@@ -47,26 +47,25 @@ class VisualTM:
 
 
 		
-	def write_file(self,sequence):
+	def write_file(self,sequence,filename):
 		'''
 		create a new slide for each step of DTM 
 		'''
 		# check if file has been created or create new file
-		if not os.path.isfile('out.tex'):
-			os.system('touch out.tex')
-		with open('out.tex','w') as f:
+		if not os.path.isfile(filename+'.tex'):
+			os.system('touch'+filename+'.tex')
+		with open(filename+'.tex','w') as f:
 			f.write(self.header)
 			for i,step in enumerate(sequence):
 				f.write(self.slide.format('{$'+step[2]+'$}','{'+str(i+1)+'}',str(step[1]),'{'+','.join(bit for bit in step[0])+'}'))
 			f.write(self.footer)
-		#os.system('/Library/TeX/texbin/pdflatex out.tex')
-		os.system('pdflatex out.tex')
+		if os.system('pdflatex '+filename+'.tex') !=0:
+			os.system('/Library/TeX/texbin/pdflatex '+filename+'.tex')
+		
+		self._filename = filename
 
 	def visualize(self):
-		#os.system('cd output')
-		
-		os.system('open out.pdf')
-
+		os.system(self._viewername+' '+self._filename+'.pdf')
 
 	def set_viewer(self, viewername):
 		self._viewername = viewername
