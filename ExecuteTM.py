@@ -52,9 +52,12 @@ class ExecuteTM:
 		Returns the cuerrent state, depending on wether
 		1 or 2 bands are used
 		"""
-		tape_states = [[t.output, t.position] for t in tapes]
+		tape_states = []
+		for tape in tapes:
+			tape_states.append(list(tape.output))
+			tape_states.append(tape.position)
 
-		return sum(tape_states, []) + [self.state]
+		return tuple(tape_states + [self.state])
 
 
 	def exec_TM(self, inputstrings):
@@ -147,8 +150,10 @@ if __name__ == '__main__':
 
 	# tm._parse_file("tapes/Folgen.txt")
 	# tm.exec_TM("1,1,0,0,1,1,B,B|B,B,0,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0")
-	tm._parse_file("tapes/bsp.txt")
-	tm.exec_TM("1,1,1,1,1")
+	# tm._parse_file("tapes/bsp.txt")
+	# tm.exec_TM("1,1,1,1,1")
+	tm._parse_file("tapes/col.txt")
+	tm.exec_TM('0,1,0')
 
 	# tm._parse_file("tapes/col.txt")
 	# tm.exec_TM("1,1")

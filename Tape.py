@@ -53,7 +53,6 @@ class Tape:
 		"""
 		Returns the character from current tape position
 		"""
-		print("position", self.position, self.output)
 		return self.output[self.position]
 
 
