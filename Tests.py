@@ -40,7 +40,7 @@ class TestVisualizer(unittest.TestCase):
 		self.vis = VisualTM()
 
 	def test_ExecuteAPI(self):
-		self.vis.write_file(self.tm.get_steps())
+		self.vis.write_file(self.tm.get_steps(),'out')
 		self.vis.visualize()
 		self.assertEqual(1, 1)
 
