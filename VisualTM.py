@@ -59,8 +59,8 @@ class VisualTM:
 			for i,step in enumerate(sequence):
 				f.write(self.slide.format('{$'+step[2]+'$}','{'+str(i+1)+'}',str(step[1]),'{'+','.join(bit for bit in step[0])+'}'))
 			f.write(self.footer)
-		os.system('/Library/TeX/texbin/pdflatex out.tex')
-		#os.system('pdflatex out.tex')
+		#os.system('/Library/TeX/texbin/pdflatex out.tex')
+		os.system('pdflatex out.tex')
 
 	def visualize(self):
 		#os.system('cd output')
