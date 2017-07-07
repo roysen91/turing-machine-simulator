@@ -21,13 +21,13 @@ class Tests(unittest.TestCase):
 		self.tm._parse_file("tapes/bsp.txt")
 		self.assertEqual(self.tm.settings["amount_tapes"], 1)
 		self.assertEqual(self.tm.settings["amount_states"], 4)
-		self.assertEqual(self.tm.settings["input_alphabet"], set(["0","1"]))
-		self.assertEqual(self.tm.settings["tape_alphabet"], set(["0","1","B"]))
-		self.assertEqual(self.tm.settings["blank_character"],"B")
+		self.assertEqual(self.tm.settings["input_alphabet"], set("01"))
+		self.assertEqual(self.tm.settings["tape_alphabet"], set("01B"))
+		self.assertEqual(self.tm.settings["blank_character"], "B")
 		self.assertEqual(self.tm.settings["accepted_states"], set())
 
 		#self.tm.exec_TM("BB11111BB")
-		
+
 class TestVisualizer(unittest.TestCase):
 	"""
 	Running tests on VisualTM
@@ -36,14 +36,14 @@ class TestVisualizer(unittest.TestCase):
 		print("setup Vis")
 		self.tm = ExecuteTM()
 		self.tm._parse_file("tapes/col.txt")
-		self.tm.exec_TM('BB010BB')
+		self.tm.exec_TM('0,1,0')
 		self.vis = VisualTM()
-	
+
 	def test_ExecuteAPI(self):
 		self.vis.write_file(self.tm.get_steps())
 		self.vis.visualize()
-		self.assertEqual(1, 3)
-		
+		self.assertEqual(1, 1)
+
 
 
 

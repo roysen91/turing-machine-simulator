@@ -146,18 +146,18 @@ if __name__ == '__main__':
 	tm = ExecuteTM()
 
 	# tm._parse_file("tapes/Folgen.txt")
-	# tm.exec_TM("BB110011BB|BB000000001100110000BB")
-	# tm._parse_file("tapes/bsp.txt")
-	# tm.exec_TM("BB11111BB")
+	# tm.exec_TM("1,1,0,0,1,1,B,B|B,B,0,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0")
+	tm._parse_file("tapes/bsp.txt")
+	tm.exec_TM("1,1,1,1,1")
 
 	# tm._parse_file("tapes/col.txt")
-	# tm.exec_TM("BBB11BBBBBBBBB")
+	# tm.exec_TM("1,1")
 
-	tm._parse_file("tapes/tmasch.txt")
-	tm.exec_TM("0")
+	# tm._parse_file("tapes/tmasch.txt")
+	# tm.exec_TM("0")
 	for i in range(tm.tape_amount):
 		log(tm.get_steps(i))
 
 	# tm._parse_file("tapes/finde_eins.txt")
-	# tm.exec_TM("22110010100101011010001010122")
+	# tm.exec_TM("1,1,0,0,1,0,1,0,0,1,0,1,0,1,1,0,1,0,0,0,1,0,1,0,1")
 	# log("Steps taken", tm.get_steps())

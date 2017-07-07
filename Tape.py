@@ -4,11 +4,21 @@ class Tape:
 		"""
 		Sets up the initial state of tape
 		"""
-		self.input = inputstring
-		self.output = inputstring
 		self.settings = settings
+		inputlist = self.parse_inputstring(inputstring)
+		self.input = inputlist
+		self.output = inputlist
 		self.position = self.first_nonblank()
 
+
+	def parse_inputstring(self, inputstring):
+		"""
+		Parsing the comma separated input string and
+		adds padding to both sides
+		"""
+		inputlist = inputstring.split(",")
+		padding = [self.settings["blank_character"]]*50
+		return padding + inputlist + padding
 
 	def to_set(self):
 		"""
@@ -37,12 +47,13 @@ class Tape:
 		"""
 		Writes the input character at current position on tape
 		"""
-		self.output = self.output[:self.position] + character + self.output[self.position+1:]
+		self.output[self.position] = character
 
 	def read(self):
 		"""
 		Returns the character from current tape position
 		"""
+		print("position", self.position, self.output)
 		return self.output[self.position]
 
 
