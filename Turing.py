@@ -29,7 +29,7 @@ class Turing:
 		tm.exec_TM(inputstrings)
 		vis = VisualTM()
 
-		vis.write_file(tm.get_steps())
+		vis.write_file(tm.get_steps(), filename)
 		#vis.visualize()
 
 
