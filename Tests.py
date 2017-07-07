@@ -35,8 +35,8 @@ class TestVisualizer(unittest.TestCase):
 	def setUp(self):
 		print("setup Vis")
 		self.tm = ExecuteTM()
-		self.tm._parse_file("tapes/finde_eins.txt")
-		self.tm.exec_TM("22000001122")
+		self.tm._parse_file("tapes/col.txt")
+		self.tm.exec_TM('BB010BB')
 		self.vis = VisualTM()
 	
 	def test_ExecuteAPI(self):
