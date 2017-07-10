@@ -36,7 +36,7 @@ class ExecuteTM:
 			"input_alphabet":	set(settings_list[2].split(",")),
 			"tape_alphabet":	set(settings_list[3].split(",")),
 			"blank_character":	settings_list[4],
-			"accepted_states":	set(settings_list[5].split(";")[0])
+			"accepted_states":	set(settings_list[5].split(";")[0].split(","))
 		}
 
 		for instruction in instructions:
@@ -66,7 +66,7 @@ class ExecuteTM:
 
 		@param str inputstrings separated with | for multiple tapes
 		"""
-		inputstrings = inputstrings.split("|")
+		inputstrings = inputstrings.split("#")
 		if self.tape_amount != len(inputstrings):
 			raise Exception("TM made for {} tapes, but {} was input".format(self.tape_amount, len(inputstrings)))
 
@@ -87,11 +87,13 @@ class ExecuteTM:
 				log("Tape:", t.output)
 			step = self.get_general_state(tapes)
 			self._steps.append(step)
-
 			instruction_key = tuple([self.state] + [t.read() for t in tapes])
 			log("instruction_key", instruction_key)
 
 			if instruction_key in self.instructions:
+				if self.state[1:] in self.settings["accepted_states"]:
+					log("Accepted state '{}' reached".format(self.state))
+					terminated = True
 				log("instruction", self.instructions[instruction_key])
 
 				# perform tasks on all tapes
@@ -99,14 +101,11 @@ class ExecuteTM:
 				self.state = instructions.pop(0)
 				half = len(instructions)//2
 				for i in range(half):
-					log("instr", i, instructions[i], instructions[i+half])
+					log("instr", instructions[i], instructions[i+half])
 					tapes[i].write(instructions[i])
 					tapes[i].move(instructions[i+half])
 
-				if self.state[1:] in self.settings["accepted_states"]:
-					log("Accepted state '{}' reached".format(self.state))
-					terminated = True
-				elif step == self.get_general_state(tapes):
+				if step == self.get_general_state(tapes):
 					log("Tape values, position and state hasn't changed")
 					terminated = True
 			else:
@@ -148,12 +147,13 @@ if __name__ == '__main__':
 
 	tm = ExecuteTM()
 
-	# tm._parse_file("tapes/Folgen.txt")
-	# tm.exec_TM("1,1,0,0,1,1,B,B|B,B,0,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,0,0")
+	tm._parse_file("tapes/Folgen.txt")
+	tm.exec_TM("1,1,1#")
+	#tm.exec_TM("1,0,1#0,1,0")
 	# tm._parse_file("tapes/bsp.txt")
 	# tm.exec_TM("1,1,1,1,1")
-	tm._parse_file("tapes/col.txt")
-	tm.exec_TM('0,1,0')
+	# tm._parse_file("tapes/col.txt")
+	# tm.exec_TM('1,1')
 
 	# tm._parse_file("tapes/col.txt")
 	# tm.exec_TM("1,1")

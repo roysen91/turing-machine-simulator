@@ -4,6 +4,7 @@ class Tape:
 		"""
 		Sets up the initial state of tape
 		"""
+		self.padding_amount = 10
 		self.settings = settings
 		inputlist = self.parse_inputstring(inputstring)
 		self.input = inputlist
@@ -17,7 +18,9 @@ class Tape:
 		adds padding to both sides
 		"""
 		inputlist = inputstring.split(",")
-		padding = [self.settings["blank_character"]]*10
+		if inputlist == [""]:
+			inputlist = []
+		padding = [self.settings["blank_character"]]*self.padding_amount
 		return padding + inputlist + padding
 
 	def to_set(self):
@@ -31,16 +34,17 @@ class Tape:
 		"""
 		Finds the first character in tape (from left) that isn't blank
 		"""
-		for position, char in enumerate(self.input):
-			if char in self.settings["input_alphabet"]:
-				return position
+		return self.padding_amount
+		# for position, char in enumerate(self.input):
+		# 	if char in self.settings["input_alphabet"]:
+		# 		return position
 
 
 	def forbidden_characters(self):
 		"""
 		Returns a set of forbidden characters
 		"""
-		return self.to_set() - self.settings["tape_alphabet"]
+		return (self.to_set() - self.settings["tape_alphabet"]) - set([''])
 
 
 	def write(self, character):
