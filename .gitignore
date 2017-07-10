@@ -1,0 +1,10 @@
+**/__pycache__/
+
+*.tex
+*.snm
+*.nav
+*.aux
+*.toc
+*.log
+*.out
+*.pdf
