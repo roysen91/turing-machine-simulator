@@ -24,12 +24,12 @@ class Turmite:
 
 	def write(self, value):
 		y, x = self.position
-		return self.tape[y][x] = value
+		self.tape[y][x] = value
 
 	def move(self, new_x, new_y):
 		y, x = self.position
-		x += 1 if new_x == "L" elif 0 if new_x == "N" else -1
-		y += 1 if new_y == "D" elif 0 if new_y == "N" else -1
+		if new_x != "N": x += 1 if new_x == "L" else -1
+		if new_y != "N": y += 1 if new_y == "D" else -1
 		self.position = (y,x)
 
 	def set_state(self, new_state):
