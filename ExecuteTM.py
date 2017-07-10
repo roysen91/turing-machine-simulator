@@ -49,8 +49,11 @@ class ExecuteTM:
 
 	def get_general_state(self, tapes):
 		"""
-		Returns the cuerrent state, depending on wether
-		1 or 2 bands are used
+		Returns the current tape state combined with the readhead state,
+		depending on the amount of tapes being used
+
+		@param list tapes
+		@return tuple tape state
 		"""
 		tape_states = []
 		for tape in tapes:
@@ -64,7 +67,7 @@ class ExecuteTM:
 		"""
 		Executing the instruction previously parsed on the inputstring(s)
 
-		@param str inputstrings separated with | for multiple tapes
+		@param str inputstrings separated with # for multiple tapes
 		"""
 		inputstrings = inputstrings.split("#")
 		if self.tape_amount != len(inputstrings):
@@ -82,9 +85,11 @@ class ExecuteTM:
 		attempts = 0 # for testing purposes
 
 		while not terminated:
-			# save old values for later comparison
+
 			for t in tapes:
 				log("Tape:", t.output)
+
+			# save old values for later comparison
 			step = self.get_general_state(tapes)
 			self._steps.append(step)
 			instruction_key = tuple([self.state] + [t.read() for t in tapes])
@@ -148,7 +153,7 @@ if __name__ == '__main__':
 	tm = ExecuteTM()
 
 	tm._parse_file("tapes/Folgen.txt")
-	tm.exec_TM("1,1,1#")
+	tm.exec_TM("1,1,1#1,1,1")
 	#tm.exec_TM("1,0,1#0,1,0")
 	# tm._parse_file("tapes/bsp.txt")
 	# tm.exec_TM("1,1,1,1,1")
