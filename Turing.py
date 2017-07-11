@@ -16,7 +16,7 @@ class Turing:
 	from the command line, like so:
 	`python3 Turing.py <tm txt file name> <comma separated inputstring> <output filename without ending> <open command>`
 	"""
-	def __init__(self, turing_machine, inputstrings = "", filename = "tm", viewername = None):
+	def __init__(self, turing_machine, inputstrings = "", filename = "tm", viewername = "gnome-open"):
 		"""
 		Checks if all input from terminal is in order
 		and if so, continue to self.output_file()
@@ -28,7 +28,7 @@ class Turing:
 
 		self.output_file(turing_machine, inputstrings, filename, viewername)
 
-	def output_file(self, turing_machine, inputstrings, filename, viewername = None):
+	def output_file(self, turing_machine, inputstrings, filename, viewername = "gnome-open"):
 		"""
 		Executes the turing machine and generates a PDF out of the steps taken
 		and opens the pdf with specified program

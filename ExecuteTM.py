@@ -153,7 +153,7 @@ if __name__ == '__main__':
 	tm = ExecuteTM()
 
 	tm._parse_file("tapes/Folgen.txt")
-	tm.exec_TM("1,1,1#1,1,1")
+	tm.exec_TM("1,1,0#1,0,1,0")
 	#tm.exec_TM("1,0,1#0,1,0")
 	# tm._parse_file("tapes/bsp.txt")
 	# tm.exec_TM("1,1,1,1,1")
