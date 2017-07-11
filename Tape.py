@@ -4,7 +4,7 @@ class Tape:
 		"""
 		Sets up the initial state of tape
 		"""
-		self.padding_amount = 10
+		self.padding_amount = 1
 		self.settings = settings
 		inputlist = self.parse_inputstring(inputstring)
 		self.input = inputlist
@@ -68,3 +68,10 @@ class Tape:
 			self.position += 1
 		elif direction is "L":
 			self.position -= 1
+
+		if self.position < 0:
+			self.output = [self.settings["blank_character"]] + self.output
+			self.position = 0
+		elif self.position > len(self.output) - 1:
+			self.output += [self.settings["blank_character"]]
+			self.position = len(self.output) - 1
