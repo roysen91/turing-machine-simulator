@@ -69,12 +69,10 @@ class ExecuteTM:
 
 		@param str inputstrings separated with # for multiple tapes
 		"""
-		inputstrings = inputstrings.split("#")
-		if self.tape_amount != len(inputstrings):
-			raise Exception("TM made for {} tapes, but {} was input".format(self.tape_amount, len(inputstrings)))
-
 		self._steps = []
-		tapes = [Tape(inputstring, self.settings) for inputstring in inputstrings]
+		tapes = [Tape(inputstrings, self.settings)]
+		for i in range(self.tape_amount-1):
+			tapes.append(Tape("", self.settings))
 
 		if any([tape.forbidden_characters() for tape in tapes]):
 			raise Exception("Forbidden characters in tape:", [tape.forbidden_characters() for tape in tapes])
@@ -82,7 +80,6 @@ class ExecuteTM:
 		# initial setup
 		self.state = "q0"
 		terminated = False
-		attempts = 0 # for testing purposes
 
 		while not terminated:
 
@@ -117,12 +114,6 @@ class ExecuteTM:
 				log("Instruction not found for tape")
 				terminated = True
 
-			# temporarily avoiding infinite loops
-			attempts += 1
-			if attempts > 5000:
-				log("Killed it, because doesn't stop! Tape:")
-				terminated = True
-
 
 		log("ALL TERMINATED!")
 		for i, tape in enumerate(tapes):
@@ -152,16 +143,16 @@ if __name__ == '__main__':
 
 	tm = ExecuteTM()
 
-	tm._parse_file("tapes/Folgen.txt")
-	tm.exec_TM("1,1,0#1,0,1,0")
-	#tm.exec_TM("1,0,1#0,1,0")
+	# tm._parse_file("tapes/Folgen.txt")
+	# tm.exec_TM("1,1,0A1,0,1,0")
+	#tm.exec_TM("1,0,1A0,1,0")
 	# tm._parse_file("tapes/bsp.txt")
 	# tm.exec_TM("1,1,1,1,1")
 	# tm._parse_file("tapes/col.txt")
 	# tm.exec_TM('1,1')
 
-	# tm._parse_file("tapes/col.txt")
-	# tm.exec_TM("1,1")
+	tm._parse_file("tapes/col.txt")
+	tm.exec_TM("1,1,1,1,1,1,1,1")
 
 	# tm._parse_file("tapes/tmasch.txt")
 	# tm.exec_TM("0")
