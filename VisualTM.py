@@ -6,7 +6,7 @@ import subprocess
 class VisualTM:
 
 	def __init__(self):
-		self._viewername = 'open'
+		self._viewername = 'gnome-open'
 		self.styles = "\\tikzstyle{NodeStyle}=[] \n\
 \\tikzstyle{EdgeStyle}=[]"
 		self.commands = ""
@@ -65,7 +65,8 @@ class VisualTM:
 		self._filename = filename
 
 	def visualize(self):
-		os.system(self._viewername+' '+self._filename+'.pdf')
+		if os.system(self._viewername+' '+self._filename+'.pdf') != 0:
+			raise Exception("Cannot open "+self._filename+".pdf"+"with "+self._viewername+" !")
 
 	def set_viewer(self, viewername):
 		self._viewername = viewername
