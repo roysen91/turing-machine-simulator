@@ -53,13 +53,13 @@ class VisualTM:
 		'''
 		# check if file has been created or create new file
 		if not os.path.isfile(filename+'.tex'):
-			os.system('touch'+filename+'.tex')
+			os.system('touch '+filename+'.tex')
 		with open(filename+'.tex','w') as f:
 			f.write(self.header)
 			for i,step in enumerate(sequence):
 				f.write(self.slide.format('{$'+step[2]+'$}','{'+str(i+1)+'}',str(step[1]),'{'+','.join(bit for bit in step[0])+'}'))
 			f.write(self.footer)
-		if os.system('pdflatex '+filename+'.tex') !=0:
+		if os.system('pdflatex '+filename+'.tex'+' >compiler.log') !=0:
 			os.system('/Library/TeX/texbin/pdflatex '+filename+'.tex')
 		
 		self._filename = filename

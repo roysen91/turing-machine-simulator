@@ -50,6 +50,8 @@ class Turing:
 			if os.path.isfile("./{}.{}".format(filename, file_ending)):
 				print("Deleting", "{}.{}".format(filename, file_ending))
 				os.remove("./{}.{}".format(filename, file_ending))
+		print("Deleting", "compiler.log")
+		os.remove("./compiler.log")
 
 		if viewername:
 			vis.set_viewer(viewername)
