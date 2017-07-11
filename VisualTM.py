@@ -66,7 +66,7 @@ class VisualTM:
 
 	def visualize(self):
 		if os.system(self._viewername+' '+self._filename+'.pdf') != 0:
-			raise Exception("Cannot open "+self._filename+".pdf"+"with "+self._viewername+" !")
+			raise Exception("Cannot open "+self._filename+".pdf"+" with <"+self._viewername+">!")
 
 	def set_viewer(self, viewername):
 		self._viewername = viewername
