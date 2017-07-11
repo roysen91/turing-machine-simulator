@@ -3,7 +3,7 @@ from ExecuteTM import ExecuteTM
 from VisualTM import VisualTM
 import unittest
 
-class TestCollatz(unittest.TestCase):
+class TestCollatzKorrekt(unittest.TestCase):
 	"""
 	Running tests on ExecuteTM
 	"""
@@ -12,7 +12,7 @@ class TestCollatz(unittest.TestCase):
 		self.tm._parse_file("tapes/col.txt")
 		self.tm.exec_TM("1,1,1")
 
-	def test_after_parse_bsp(self):
+	def test_after_parse(self):
 		self.assertEqual(self.tm.settings["amount_tapes"], 1)
 		self.assertEqual(self.tm.settings["amount_states"], 18)
 		self.assertEqual(self.tm.settings["input_alphabet"], set("01"))
@@ -21,9 +21,9 @@ class TestCollatz(unittest.TestCase):
 		self.assertEqual(self.tm.settings["accepted_states"], {'17'})
 		
 	def test_output(self):
-		self.assertEqual(self.tm.get_steps()[-1][2], "q17")
+		self.assertEqual(self.tm.get_steps()[-1][-1], "q17")
 		
-class TestFolgen(unittest.TestCase):
+class TestFolgenKorrekt(unittest.TestCase):
 	"""
 	Running tests on ExecuteTM
 	"""
@@ -32,18 +32,34 @@ class TestFolgen(unittest.TestCase):
 		self.tm._parse_file("tapes/Folgen.txt")
 		self.tm.exec_TM("1,1,0,A,0,1,1,1,0")
 
-	def test_after_parse_bsp(self):
-		self.tm._parse_file("tapes/bsp.txt")
-		self.assertEqual(self.tm.settings["amount_tapes"], 1)
-		self.assertEqual(self.tm.settings["amount_states"], 4)
-		self.assertEqual(self.tm.settings["input_alphabet"], set("01"))
-		self.assertEqual(self.tm.settings["tape_alphabet"], set("01B"))
+	def test_after_parse(self):
+		self.assertEqual(self.tm.settings["amount_tapes"], 2)
+		self.assertEqual(self.tm.settings["amount_states"], 6)
+		self.assertEqual(self.tm.settings["input_alphabet"], set("01A"))
+		self.assertEqual(self.tm.settings["tape_alphabet"], set("01BA"))
 		self.assertEqual(self.tm.settings["blank_character"], "B")
-		print(self.tm.settings["accepted_states"])
 		self.assertEqual(self.tm.settings["accepted_states"], {'3'})
 	def test_output(self):
-		self.assertEqual(self.tm.get_steps()[-1][2], "q3")
+		self.assertEqual(self.tm.get_steps()[-1][-1], "q3")
 
+class TestFolgenFehler(unittest.TestCase):
+	"""
+	Running tests on ExecuteTM
+	"""
+	def setUp(self):
+		self.tm = ExecuteTM()
+		self.tm._parse_file("tapes/Folgen.txt")
+		self.tm.exec_TM("1,1,1,A,0,1,0")
+
+	def test_after_parse(self):
+		self.assertEqual(self.tm.settings["amount_tapes"], 2)
+		self.assertEqual(self.tm.settings["amount_states"], 6)
+		self.assertEqual(self.tm.settings["input_alphabet"], set("01A"))
+		self.assertEqual(self.tm.settings["tape_alphabet"], set("01BA"))
+		self.assertEqual(self.tm.settings["blank_character"], "B")
+		self.assertEqual(self.tm.settings["accepted_states"], {'3'})
+	def test_output(self):
+		self.assertEqual(self.tm.get_steps()[-1][-1], "q4")
 
 
 if __name__ == "__main__":
